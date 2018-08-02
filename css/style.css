@@ -2,15 +2,15 @@ html {
     min-width: 1100px;
     background: #333;
     font-family: Arial, Tahoma;
-    font-size:12px;
+    font-size: 12px;
 }
 
-input{
-    cursor:pointer;
+input {
+    cursor: pointer;
 }
 
-.title{
-    color:#fff;
+.title {
+    color: #fff;
 }
 
 .calendar {
@@ -20,6 +20,7 @@ input{
     padding: 12px;
     text-align: left;
     min-width: 1045px;
+    position: relative;
 }
 
     .calendar .control {
@@ -101,7 +102,38 @@ label, label input {
     cursor: pointer;
 }
 
+.links {
+    position: absolute;
+    width: 100%;
+    top: -17px;
+    left: 0px;
+}
+
+    .links a {
+        color: #cdcdcd;
+        position: absolute;
+        text-decoration: none;
+    }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+    .links .about {
+        left: 0px;
+    }
+
+    .links .print {
+        right: 0px;
+    }
+
 @media print {
+    @page {
+        size: auto;
+        margin: 0px;
+        padding:0px
+    }
+
     .calendar {
         zoom: 0.95;
     }
@@ -114,11 +146,7 @@ label, label input {
             margin: 0px;
         }
 
-    header, #comments {
-        display: none;
-    }
-
-    .ya-share2 {
+    header, #comments, .links, .ya-share2, .control, h1, hr {
         display: none;
     }
 }
