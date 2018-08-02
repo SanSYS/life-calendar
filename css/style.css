@@ -131,7 +131,7 @@ label, label input {
     @page {
         size: auto;
         margin: 0px;
-        padding:0px
+        padding: 0px
     }
 
     .calendar {
@@ -154,3 +154,14 @@ label, label input {
 .ya-share2 {
     float: right;
 }
+
+
+.copyright {
+    padding: 12px;
+    display: block;
+}
+
+    .copyright a {
+        color: #fff;
+        text-decoration:none;
+    }
