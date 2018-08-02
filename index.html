@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<meta charset="utf-8">
 <title>Life Calendar - in Weeks</title>
 <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js" type="text/javascript"></script>
 <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
@@ -9,38 +10,45 @@
 <link rel="stylesheet" href="css/style.css">
 
 <script type="text/javascript" src="js/main.js"></script>
-    
-<div class="calendar" id="calendarContainer">
-    <div class="yashare-auto-init" data-yasharel10n="ru" data-yasharequickservices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yasharetype="none" style="float: right;">
-    </div>
-    <div>
-        Дата рождения: <input class="date" data-bind="datePicker: BornDate" type="text"/>
-        Масштаб: <div id="slider"></div>
-        <label><input data-bind="checked: StartFromZero" type="checkbox" /> Начать с нуля</label>
-    </div>
-    <hr />
-    <div class="calendar-content">
-        <div>
+
+<center>
+    <h1 class="title">
+        Your Life in Weeks
+    </h1>
+
+    <div class="calendar" id="calendarContainer">
+        <div class="ya-share2" data-services="vkontakte,facebook,twitter,reddit,whatsapp,telegram"></div>
+
+        <div class="control">
+            Дата рождения: <input class="date" data-bind="datePicker: BornDate" type="text" />
+            Масштаб: <div id="slider"></div>
+            <label><input data-bind="checked: StartFromZero" type="checkbox" /> Начать с нуля</label>
+        </div>
+        <hr />
+        <div class="calendar-content">
             <div>
-                <span class="age"></span>
-                <span data-bind="foreach: Years()[0].Weeks">
-                    <b class="no" data-bind="text: Number - $root.StartFromZero()"></b>
-                </span>
+                <div>
+                    <span class="age"></span>
+                    <span data-bind="foreach: Years()[0].Weeks">
+                        <b class="no" data-bind="text: Number - $root.StartFromZero()"></b>
+                    </span>
+                </div>
+            </div>
+            <div data-bind="foreach: Years">
+                <div>
+                    <span class="age" data-bind="text: Number - $root.StartFromZero()"></span>
+                    <span data-bind="foreach: Weeks">
+                        <b data-bind="css: { lost: IsLost(), record: Record }, click: $root.click"></b>
+                    </span>
+                </div>
             </div>
         </div>
-        <div data-bind="foreach: Years">
-            <div>
-                <span class="age" data-bind="text: Number - $root.StartFromZero()"></span>
-                <span data-bind="foreach: Weeks">
-                    <b data-bind="css: { lost: IsLost(), record: Record }, click: $root.click"></b>
-                </span>
-            </div>
-        </div>
     </div>
-</div>
+</center>
 
 <div id="dialog" style="display: none;" title="Text to record">
-    <textarea id="textToRecord"></textarea>   
+    <textarea id="textToRecord"></textarea>
 </div>
 
-<script charset="utf-8" src="//yandex.st/share/share.js" type="text/javascript" defer></script>
+<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" defer></script>
+<script src="//yastatic.net/share2/share.js" defer></script>
