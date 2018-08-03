@@ -32,6 +32,7 @@ input {
         display: inline-block;
         width: 20px;
         white-space: nowrap;
+        visibility: hidden;
     }
 
     .calendar span b {
@@ -48,7 +49,12 @@ input {
             border: 1px solid #FFF;
             cursor: default;
             white-space: nowrap;
+            visibility: hidden;
         }
+
+            .calendar span b.no:first-child {
+                visibility: hidden;
+            }
 
     .calendar b.lost {
         background: #ababab;
@@ -62,6 +68,14 @@ input {
         background: #abFFab;
     }
 
+    .calendar div:nth-child(5n + 1) > span.age {
+        visibility: visible;
+    }
+
+    .calendar span b.no:nth-child(5n+1) {
+        visibility: visible;
+    }
+    
 #textToRecord {
     width: 500px;
     height: 350px;
