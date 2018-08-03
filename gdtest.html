@@ -2,31 +2,77 @@
   <head>
     <script src="https://apis.google.com/js/api.js"></script>
     <script>
-      function start() {
-        // Initializes the client with the API key and the Translate API.
-        gapi.client.init({
-          'apiKey': 'AIzaSyAwZO2DPPJ2yxB2D-oE4dyE8sO8LFenmVs',
-          'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest'],
-        }).then(function() {
-          // Executes an API request, and returns a Promise.
-          // The method name `language.translations.list` comes from the API discovery.
-          return gapi.client.language.translations.list({
-            q: 'hello world',
-            source: 'en',
-            target: 'de',
-          });
-        }).then(function(response) {
-          console.log(response.result.data.translations[0].translatedText);
-        }, function(reason) {
-          console.log('Error: ' + reason.result.error.message);
-        });
-      };
+      var CLIENT_ID = '1025714952336-c9jv7a93728dbn6lad2lssrsbnkebuda.apps.googleusercontent.com';
+      var API_KEY = 'AIzaSyAwZO2DPPJ2yxB2D-oE4dyE8sO8LFenmVs';
+      var SCOPES = 'https://www.googleapis.com/auth/drive';
 
-      // Loads the JavaScript client library and invokes `start` afterwards.
-      gapi.load('client', start);
+      function handleClientLoad() {
+          gapi.client.setApiKey(API_KEY);
+          window.setTimeout(checkAuth,1);
+      }
+
+      function checkAuth() {
+          var options = {
+              client_id: CLIENT_ID,
+              scope: SCOPES,
+              immediate: true
+          };
+          gapi.auth.authorize(options, handleAuthResult);
+      }
+
+      function handleAuthResult(authResult) {
+          var authorizeButton = document.getElementById('authorize-button');
+
+          if (authResult && !authResult.error) {
+              authorizeButton.style.visibility = 'hidden';
+              makeApiCall();
+          } else {
+              authorizeButton.style.visibility = '';
+              authorizeButton.onclick = handleAuthClick;
+          }
+      }
+
+      function handleAuthClick(event) {
+          var options = {
+              client_id: CLIENT_ID,
+              scope: SCOPES,
+              immediate: false
+          };
+          gapi.auth.authorize(options, handleAuthResult);
+          return false;
+      }
+
+      function makeApiCall() {  
+          gapi.client.load('drive', 'v2', makeRequest);   
+      }
+
+      function makeRequest() {
+          var request = gapi.client.drive.files.list({'maxResults': 5 });
+          request.execute(function(resp) {          
+              for (i=0; i<resp.items.length; i++) {
+                  var titulo = resp.items[i].title;
+                  var fechaUpd = resp.items[i].modifiedDate;
+                  var userUpd = resp.items[i].lastModifyingUserName;
+                  var userEmbed = resp.items[i].embedLink;
+                  var userAltLink = resp.items[i].alternateLink;
+
+                  var fileInfo = document.createElement('li');
+                  fileInfo.appendChild(document.createTextNode('TITLE: ' + titulo + ' - LAST MODIF: ' + fechaUpd + ' - BY: ' + userUpd ));                
+                  document.getElementById('content').appendChild(fileInfo);
+              }
+          });    
+      }
+
+      $(document).ready(function() {
+        $('#authorize-button').on('click', handleAuthClick);
+        $.getScript('//apis.google.com/js/api.js', function() {
+          gapi.load('auth:client', handleClientLoad);
+        });
+      });          
     </script>
   </head>
   <body>
-    <div id="results"></div>
+    <button id="authorize-button">Authorize</button>
+<div id="content">Files:</div>
   </body>
 </html>
