@@ -57,7 +57,7 @@ input {
             }
 
     .calendar b.lost {
-        background: #ababab;
+        background: #c7c7c7;
     }
 
         .calendar b.lost.record {
@@ -65,7 +65,7 @@ input {
         }
 
     .calendar span b.record {
-        background: #abFFab;
+        background: #93c3cd;
     }
 
     .calendar div:nth-child(5n + 1) > span.age {
